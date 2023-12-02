@@ -18,6 +18,9 @@ def download_input(today):
         text_file = open("day" + str(today) + "/input.txt", "w")
         text_file.write(response.text)
         text_file.close()
+    if not os.path.exists("day" + str(today) + "/test.txt"):
+        text_file = open("day" + str(today) + "/test.txt", "w")
+        text_file.close()
 
 
 def main(today = None):
