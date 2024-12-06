@@ -1,6 +1,5 @@
 
 def part1():
-	unsafe = 0
 	safe = 0
 	lines = []
 	with open('input.txt', 'r') as f:
@@ -8,47 +7,56 @@ def part1():
 			lines.append(items.split(' '))
 
 	int_lines = [[int(x) for x in line] for line in lines]
+	# print(len(int_lines))
 
 	for line in int_lines:
-		print (line)
-		n = len(line)
-		if (line[0] <= line[1] and
-			line[n - 2] <= line[n - 1]) :
-			print("Increasing"); 
+		increasing = True
+		decreasing = True
+		for i in range(1, len(line)):
+			diff = line[i - 1] - line[i]
+			if not (1 <= diff <= 3):
+				increasing = False
+			if not (1 <= -diff <= 3):
+				decreasing = False
+		if increasing ^ decreasing:
+			safe += 1
 
-		elif (line[0] >= line[1] and
-			line[n - 2] >= line[n - 1]) :
-			print("Decreasing"); 
-		else:
-			continue
-		for i in range(len(line)): 
-			difference = 0
-
-			if line[i-1] < line[i]:
-				difference = line[i] - line[i-1]
-			else:
-				difference = line[i-1] - line[i]
-			
-			print (line)
-
-			if difference >= 4:
-				print("unsafe")
-				unsafe += 1
-				break
-
-			if line[i] == line[-1] and difference <= 3: 
-				print("safe")
-				safe += 1
-
-	print(unsafe)
 	print(safe)
 
 
 def part2():
-	with open('input.txt', 'r') as f:
+	safe = 0
+	lines = []
+	with open('test.txt', 'r') as f:
 		for items in f.read().splitlines():
-			print(items)
+			lines.append(items.split(' '))
+
+	int_lines = [[int(x) for x in line] for line in lines]
+	# print(len(int_lines))
+
+	for line in int_lines:
+		increasing = True
+		decreasing = True
+		difference = []
+		popped = False
+		for i in range(1, len(line)):
+			diff = line[i - 1] - line[i]
+			if difference == []:
+				difference.append(diff)
+			elif not popped and not difference[-1] * diff >= 1:
+				difference.append(diff)
+				popped = True
+				continue
+			if not (1 <= diff <= 3):
+				increasing = False
+			if not (1 <= -diff <= 3):
+				decreasing = False
+		if increasing ^ decreasing:
+			print("safe", line)
+			safe += 1
+	
+	print(safe)
 
 if __name__ == '__main__':
 	part1()
-	# part2()+
+	part2()
