@@ -1,3 +1,4 @@
+import argparse
 import requests
 from datetime import date
 import os
@@ -32,4 +33,10 @@ def main(today = None):
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--date", type=int, default=None,
+                        help="Enter the date you want to create.")
+
+    args = parser.parse_args()
+    
+    main(args.date)
